@@ -1,26 +1,22 @@
-	<script src ="jquery.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src="jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	
 		<script>
-		
 			//log in vs sign up//
 			$(".toggleForm").click(function(){
 				$("#SignUpForm").toggle();
 				$("#LogInForm").toggle();
-			});
-						
+			});			
 			//update the content
-		
 			$('#notebook').on('input propertychange', function() {
 				$.ajax({
-					method: "POST",
 					url:"updatedatabase.php",
-						data: { content: $('#notebook').val()}
+					type: "POST",
+					data: { notebook: $('#notebook').val()},
+					dataType: "html",
 				});		
 			});
-			
 		</script>
 	</body>
 </html>

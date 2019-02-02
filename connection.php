@@ -1,6 +1,5 @@
 <?
-	
-	$link = mysqli_connect("xxxxxxxxx","xxx","xxxx","xxxxx");
+	$link = mysqli_connect("xxxxx","xxxxxx","xxxx","xxxx");
 	if (mysqli_connect_error()){
 		die("Connection Error to Database");
 	}		

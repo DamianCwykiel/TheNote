@@ -1,19 +1,17 @@
 <?php
 	session_start();
 	$error = "";
-	
-	//logout//
-	
-if(array_key_exists("logout", $_GET)){
+		//logout//
+	if(array_key_exists("logout", $_GET)){
 		unset($_SESSION);
 		setcookie("id","", time() -60*60);
 		$_COOKIE["id"] = "";
-}else if ((array_key_exists("id", $_SESSION) AND $_SESSION ['id']) OR (array_key_exists("id", $_COOKIE) AND $_COOKIE['id'])){
+	} else if ((array_key_exists("id", $_SESSION) AND $_SESSION ['id']) OR (array_key_exists("id", $_COOKIE) AND $_COOKIE['id'])){
         header("Location: loginpage.php");
 	}
 
 if(array_key_exists("submit", $_POST)){
-	$link = mysqli_connect("xxxxxxx","xxxxx","xxxxxx","xxxxx");
+	$link = mysqli_connect("xxxxxx","xxxxx","xxxxxx","xxxxxxxx");
 	if (mysqli_connect_error()){
 		die("Connection Error to Database");
 	}
@@ -24,18 +22,24 @@ if(array_key_exists("submit", $_POST)){
 		$error .= "Fill in the password field.<br/>";
 	}
 	if ($error != ""){
-		$error = "<p>I saw some error(s) in Your form. Please, check it out and try again later.</p>".$error;
+		$error = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  <span aria-hidden="true">&times;</span></button>
+				  <p>We saw some error(s) in Your form. Please, check it out and try again.</p>'.$error;
 	}
 	else{
 		if($_POST['signUp'] == 1){
 			$query = "SELECT id FROM `users` WHERE `email` = '".mysqli_real_escape_string($link, $_POST['email'])."' LIMIT 1";
 			$result = mysqli_query($link,$query);
 			if(mysqli_num_rows($result) > 0 ){
-				$error = "That email address is already occupied.";
+				$error = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  <span aria-hidden="true">&times;</span></button>
+						  <p>That email address has already been taken.</p>';
 			}else{
 				$query = "INSERT INTO `users`(`email`,`password`) VALUES ('".mysqli_real_escape_string($link, $_POST['email'])."', '".mysqli_real_escape_string($link, $_POST['password'])."')";
 				if (!mysqli_query($link, $query)){
-						$error = "<p> Signing you up was impossible - please try again.</p>";
+						$error = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								  <span aria-hidden="true">&times;</span></button>
+								  <p>Signing you up was impossible - please try again.</p>';
 				}else{
 					$query = "UPDATE `users` SET password = '".md5(md5(mysqli_insert_id($link)).$_POST['password'])."' WHERE id = ".mysqli_insert_id($link)." LIMIT 1";
 					mysqli_query($link, $query);
@@ -43,7 +47,9 @@ if(array_key_exists("submit", $_POST)){
 					if($_POST['stayLoggedIn'] == '1'){
 							setcookie("id", mysqli_insert_id($link), time() + 60*60*24*65);
 					}else {
-						$error = "Tick the checkbox!";
+						$error = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								  <span aria-hidden="true">&times;</span></button>
+								  <p>Tick the checkbox!.</p>';
 					}
 				header("Location: loginpage.php");
 				}
@@ -63,10 +69,14 @@ if(array_key_exists("submit", $_POST)){
 					}
 					header("Location: loginpage.php");
 				}else{
-				$error = "Sorry, that email and/or password could not be found at this moment.";	
+				$error = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  <span aria-hidden="true">&times;</span></button>
+						  <p>Sorry, that email and/or password could not be found at this moment.</p>';
 				}
 			}else {
-				$error = "Sorry, that email and/or password could not be found at this moment.";
+				$error = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  <span aria-hidden="true">&times;</span></button>
+						  <p>Sorry, that email and/or password could not be found at this moment.</p>';
 			}
 		}
 	}	

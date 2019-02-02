@@ -5,9 +5,9 @@
 	}
 	if(array_key_exists("id", $_SESSION)){
 		include("connection.php");
-		$query = "SELECT notebook FROM `users` WHERE id = ".mysqli_real_escape_string($link, $_SESSION['id'])." LIMIT 1";
-      $row = mysqli_fetch_array(mysqli_query($link, $query));
-      $userContent = $row['notebook'];
+		$query = "SELECT note FROM `users` WHERE id = ".mysqli_real_escape_string($link, $_SESSION['id'])." LIMIT 1";
+		$row = mysqli_fetch_array(mysqli_query($link, $query));
+		$userContent = $row['note'];
 	}else{
 		header("Location: index.php");
 	}
